@@ -21,12 +21,19 @@ import (
 
 	util "github.com/prr123/utility/utilLib"
 	"github.com/prr123/azulkv2/azulkvLib"
+
+	"github.com/goccy/go-json"
 )
 
-type myHandler struct{}
+//type myHandler struct{}
 
 type apiKvObj struct {
 	KvDb *azulkv2.KvObj
+}
+
+type user struct {
+    Name string `json:"name"`
+    Pwd string  `json:"pwd"`
 }
 
 //func (*myHandler) ServeApi(w http.ResponseWriter, r *http.Request) {
@@ -56,6 +63,12 @@ func LoginApi(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("server: could not read request body: %s\n", err)
 	}
 	fmt.Printf("server: request body: %s\n", reqBody)
+
+	NewUser:= user{}
+	err = json.Unmarshal(reqBody, &NewUser)
+
+	fmt.Fprintf(w, "Name: %s Pwd: %s\n", NewUser.Name, NewUser.Pwd)
+	return
 }
 
 
@@ -111,8 +124,6 @@ func main(){
         portStr = ptval.(string)
         log.Printf("port: %s\n", portStr)
     }
-
-
 
     mux := http.NewServeMux()
 
