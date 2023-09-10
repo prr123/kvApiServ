@@ -105,6 +105,7 @@ func WelcomeApi(w http.ResponseWriter, r *http.Request) {
 	// username given in the token
 	w.Write([]byte(fmt.Sprintf("Welcome %s!", claims.Username)))
 
+
 //	fmt.Fprintf(w, "Welcome\n")
 
 }
@@ -188,6 +189,7 @@ func LogoutApi(w http.ResponseWriter, r *http.Request) {
 //func (kv *apiKvObj)LoginApi(w http.ResponseWriter, r *http.Request) {
 func LoginApi(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Println("*************** Login Handler ************")
 	fmt.Printf("received %s from %s\n", r.Method, r.RemoteAddr)
 
 	urlDat := []byte(r.URL.String())
@@ -272,6 +274,9 @@ func LoginApi(w http.ResponseWriter, r *http.Request) {
 		Expires: expirationTime,
 	})
 
+	respStr := "{\"token\":\"" + tokenString + "\"}"
+	w.Write([]byte(respStr))
+	return
 }
 
 
